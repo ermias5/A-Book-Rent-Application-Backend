@@ -1,7 +1,16 @@
 import express from "express";
+import userRoute from "./src/routes/userRoute.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
-app.listen(5000, () => {
-  console.log("server has started on port 3000");
+app.use(express.json());
+
+app.use("/api/user", userRoute);
+
+const PORT = process.env.APP_PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`app is listing on port ${PORT}`);
 });
