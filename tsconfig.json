@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    // "skipLibCheck": true,
+    "strict": true,
+    // "rootDir": "src",
+    // "noEmit": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "lib": ["esnext"],
+    "esModuleInterop": true
+  }
+  //   "include": ["src/**/*"]
+}
