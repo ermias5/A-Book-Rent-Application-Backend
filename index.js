@@ -3,7 +3,6 @@ import userRoute from "./src/routes/userRoute.js";
 import { config } from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-// dotenv.config();
 
 const PORT = config(process.cwd, ".env").parsed.APP_PORT;
 const app = express();
@@ -25,5 +24,4 @@ app.listen(8080, () => {
   console.log(`app is listing on port ${PORT}`);
 });
 
-
-export default app
+export default app;
