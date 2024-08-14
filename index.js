@@ -1,13 +1,14 @@
 import express from "express";
 import userRoute from "./src/routes/userRoute.js";
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+// dotenv.config();
 
-dotenv.config();
-
+const PORT = config(process.cwd, ".env").parsed.APP_PORT;
 const app = express();
-
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   cors({
@@ -19,7 +20,7 @@ app.use(
 
 app.use("/api/user", userRoute);
 
-const PORT = process.env.APP_PORT || 3000;
-app.listen(PORT, () => {
+// const PORT = process.env.APP_PORT || 3000;
+app.listen(8080, () => {
   console.log(`app is listing on port ${PORT}`);
 });
