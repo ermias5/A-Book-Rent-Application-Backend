@@ -32,7 +32,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-"vercel-build":"echo hello"
+    "vercel-build": "echo hello",
+    "postinstall": "prisma generate"
   },
   "author": "ermias",
   "license": "ISC"
