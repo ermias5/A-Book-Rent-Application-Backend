@@ -24,3 +24,6 @@ app.use("/api/user", userRoute);
 app.listen(8080, () => {
   console.log(`app is listing on port ${PORT}`);
 });
+
+
+export default app
