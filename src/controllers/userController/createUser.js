@@ -2,13 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { defineRuleFor } from "../../auth/abilities.js";
-import createNotification from "../../utils/createNoteficationForAdmin.js";
+import createNotification from "../adminDashboardController/createNotificatonForAdmin.js";
 
 const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
   try {
-    const { email, password } = req.body.usersData;
+    const { email, password, PhoneNumber, location } = req.body.usersData;
 
     if (!email || !password) {
       return res.json({
@@ -20,33 +20,31 @@ const createUser = async (req, res) => {
       where: { email },
     });
     if (existingUser) {
-      res.status(400).send("account already exists");
+      return res.status(400).json({
+        message: "Account already exists",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
-        // name: newUser?.name,
-        // email: newUser.email,
-        // password: hashedPassword,
-        // role: newUser.role,
-        // PhoneNumber: newUser.PhoneNumber,
-        // location: newUser.location,
-
+        PhoneNumber,
+        location,
         email,
         password: hashedPassword,
-        // role,
-        // PhoneNumber,
-        // location,
       },
     });
 
     await createNotification(user.id);
 
     const maxAge = 30 * 24 * 60 * 60;
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: maxAge,
-    });
+    const accessToken = jwt.sign(
+      { userId: user.id, email: user.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: maxAge,
+      }
+    );
 
     res.send({
       user: {

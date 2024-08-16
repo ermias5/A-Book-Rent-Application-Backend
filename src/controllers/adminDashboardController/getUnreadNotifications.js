@@ -9,7 +9,6 @@ async function getUnreadNotifications(req, res) {
       orderBy: { createdAt: "desc" },
     });
 
-    // console.log("notifications", notifications);
     res.status(200).json(notifications);
   }
 }
