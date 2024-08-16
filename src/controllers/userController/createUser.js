@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { defineRuleFor } from "../../auth/abilities.js";
 import createNotification from "../adminDashboardController/createNotificatonForAdmin.js";
 
 const prisma = new PrismaClient();
@@ -19,6 +18,7 @@ const createUser = async (req, res) => {
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
+
     if (existingUser) {
       return res.status(400).json({
         message: "Account already exists",
@@ -39,7 +39,7 @@ const createUser = async (req, res) => {
 
     const maxAge = 30 * 24 * 60 * 60;
     const accessToken = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, email: user.email, role: user.role },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: maxAge,
@@ -53,7 +53,6 @@ const createUser = async (req, res) => {
         role: user.role,
       },
       token: accessToken,
-      // rules: defineRuleFor(user),
       message: "User created successfully",
     });
   } catch (err) {
