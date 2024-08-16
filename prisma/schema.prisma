@@ -20,8 +20,8 @@ model User {
   password    String 
   PhoneNumber String?
   location    String?
-  role        Role @default(ADMIN)
-  isApproved  Boolean @default(true)
+  role        Role @default(OWNER)
+  isApproved  Boolean @default(false)
   rentals     Rental[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
