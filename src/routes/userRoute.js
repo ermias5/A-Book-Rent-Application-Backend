@@ -11,7 +11,7 @@ const userRoute = Router();
 
 userRoute.get("/users", adminAuthentication, getUsers);
 userRoute.get("/user", getUser);
-userRoute.put("/", updateUser);
+userRoute.put("/updateOwner", adminAuthentication, updateUser);
 userRoute.post("/", createUser);
 userRoute.post("/login", logInUser);
 userRoute.delete("/user", deleteUser);
