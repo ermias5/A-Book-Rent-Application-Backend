@@ -7,7 +7,6 @@ const getUsers = async (req, res) => {
     const users = await prisma.user.findMany({
       where: {
         role: "OWNER",
-        // isApproved: false,
       },
       orderBy: {
         createdAt: "desc",
