@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import createNotification from "../adminDashboardController/createNotificatonForAdmin.js";
 
 const prisma = new PrismaClient();
 
@@ -34,8 +33,6 @@ const createUser = async (req, res) => {
         password: hashedPassword,
       },
     });
-
-    await createNotification(user.id);
 
     const maxAge = 30 * 24 * 60 * 60;
     const accessToken = jwt.sign(

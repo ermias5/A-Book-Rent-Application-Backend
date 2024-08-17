@@ -1,6 +1,16 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 const updateUser = async (req, res) => {
+  const { ownerId } = req.body;
   try {
-    console.log(req.body);
+    const updatedOwner = await prisma.user.update({
+      where: { id: ownerId },
+      data: { isApproved: true },
+    });
+    console.log("updatedOwner", updatedOwner);
+    res.send(updatedOwner);
   } catch (err) {
     console.log(err.message);
   }
