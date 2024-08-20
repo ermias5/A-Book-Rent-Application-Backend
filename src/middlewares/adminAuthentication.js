@@ -1,6 +1,5 @@
 import { ForbiddenError } from "@casl/ability";
 import defineAbility from "../auth/abilities.js";
-
 import jwtAuthentication from "./jwtAuthentication.js";
 
 const adminAuthentication = (req, res, next) => {
