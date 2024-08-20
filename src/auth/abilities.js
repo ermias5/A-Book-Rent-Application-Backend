@@ -7,6 +7,7 @@ const defineAbility = (user) => {
     can("manage", "all");
   } else if (user.role === "OWNER") {
     can("read", "dashboard");
+    cannot("delete", "user");
   }
 
   return build();
