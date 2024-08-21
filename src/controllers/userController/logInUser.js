@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt, { compare } from "bcrypt";
+import { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
@@ -12,10 +12,10 @@ const logInUser = async (req, res) => {
       where: { email },
     });
 
-    console.log("login user", user);
-
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(404)
+        .json({ message: "User not found please sign first sign up" });
     }
 
     const isPasswordMatch = await compare(password, user.password);
@@ -32,15 +32,8 @@ const logInUser = async (req, res) => {
     res.send({
       user,
       token: token,
-      // rules: defineRuleFor(user),
       message: "User created successfully",
     });
-
-    // res.send({
-    //   data:user,
-    //   token:token,
-    //   message:{'wanting login'}
-    // })
   } catch (err) {
     console.log(err);
   }

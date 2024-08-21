@@ -7,7 +7,7 @@ const createBook = async (req, res) => {
   try {
     const book = req.body.bookData;
     const { title, author, category, price, bookQuantity, user } = book;
-    console.log("all data", book);
+
     const newBook = await prisma.book.create({
       data: {
         title,
@@ -16,15 +16,17 @@ const createBook = async (req, res) => {
         price: parseFloat(price),
         quantity: parseInt(bookQuantity),
         owner: {
-          connect: {
-            id: user.id,
-          },
+          connect: { id: user.id, email: user.email },
         },
       },
+      include: {
+        owner: true,
+      },
     });
-    return res
-      .status(201)
-      .json({ message: "Book created successfully", book: newBook });
+    return res.status(201).json({
+      message: "Book created successfully",
+      book: newBook,
+    });
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ message: "book not created" });
