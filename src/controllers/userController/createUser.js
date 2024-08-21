@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
   try {
-    const { email, password, PhoneNumber, location } = req.body.usersData;
+    const { name, email, password, PhoneNumber, location } = req.body.usersData;
 
     if (!email || !password) {
       return res.json({
@@ -20,13 +20,14 @@ const createUser = async (req, res) => {
 
     if (existingUser) {
       return res.status(400).json({
-        message: "Account already exists",
+        message: "Account already exist! please log in",
       });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
+        name,
         PhoneNumber,
         location,
         email,
@@ -36,7 +37,7 @@ const createUser = async (req, res) => {
 
     const maxAge = 30 * 24 * 60 * 60;
     const accessToken = jwt.sign(
-      { userId: user.id, email: user.email, role: user.role },
+      { userId: user.id, email: user.email, name: user.name, role: user.role },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: maxAge,
@@ -53,6 +54,7 @@ const createUser = async (req, res) => {
       message: "User created successfully",
     });
   } catch (err) {
+    res.status(400).json({ message: "user not created" });
     console.log(err.message);
   }
 };

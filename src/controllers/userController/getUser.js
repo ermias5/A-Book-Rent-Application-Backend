@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-// import jwt from "jsonwebtoken";
 
 const getUser = async (req, res) => {
   const { name } = req.params;
