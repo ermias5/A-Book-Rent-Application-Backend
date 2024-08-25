@@ -26,7 +26,7 @@ app.use("/api/admin", adminRoute);
 app.use("/api/book", bookRoute);
 
 // const PORT = process.env.APP_PORT || 3000;
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log(`app is listing on port ${PORT}`);
 });
 
